@@ -1,0 +1,25 @@
+{
+  "Author": "Aless",
+  "Name": "Mount Select",
+  "Punchline": "Job-specific mount rotations with visual selection",
+  "Description": "Customize your mount experience! Set up job-specific mount rotations and summon them with a keybind or command. Includes multi-seat mount favorites and visual mount selection with icons.",
+  "InternalName": "MountSelect",
+  "AssemblyVersion": "1.0.0.0",
+  "RepoUrl": "https://github.com/yourusername/mount-select",
+  "ApplicableVersion": "any",
+  "Tags": [
+    "mount",
+    "utility",
+    "convenience",
+    "job",
+    "rotation"
+  ],
+  "DalamudApiLevel": 13,
+  "LoadPriority": 0,
+  "LoadRequiredState": 0,
+  "LoadSync": false,
+  "CanUnloadAsync": false,
+  "LoadTimeoutMs": null,
+  "Disabled": false,
+  "Testing": true
+}
