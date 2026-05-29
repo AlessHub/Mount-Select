@@ -22,6 +22,7 @@ The plugin registers these chat commands:
 
 ## Known Limitations
 
+- **Mounting in PvP does not work entirely well** - I'm still currently working on this but I don't really like PvP that much so I'm just moving flags and hoping it works the next time I actually feel like doing frontline :(
 - **Keybinds may trigger while typing in chat** - There's no reliable way to detect chat input in FFXIV via the Dalamud API. The plugin will display a warning when setting up keybinds. Consider using chat commands (`/qmount`, `/multimount`) or in-game macros as an alternative.
 - **Keybinds are disabled when game window is not focused** - This is intentional to prevent accidental activation.
 
