@@ -5,6 +5,7 @@ obj/
 .vs/
 .vscode/
 *.DotSettings
+.github/copilot-instructions.md
 
 packages/
 
