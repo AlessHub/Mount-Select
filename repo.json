@@ -1,0 +1,27 @@
+{
+  "Author": "Aless",
+  "Name": "Mount Select",
+  "Punchline": "Job-specific mount rotations with visual selection",
+  "Description": "Customize your mount experience! Set up job-specific mount rotations and summon them with a keybind or command. Includes multi-seat mount favorites and visual mount selection with icons.",
+  "Changelog": "## 1.0.0\n- Initial release\n- Job-specific mount rotations\n- Visual mount selection with icon grid\n- Multi-seat mount favorites\n- Customizable keybinds\n- PvP mount support fix",
+  "Tags": [
+    "mount",
+    "utility",
+    "convenience",
+    "job",
+    "rotation"
+  ],
+  "CategoryTags": [],
+  "RepoUrl": "https://github.com/AlessHub/Mount-Select",
+  "ApplicableVersion": "any",
+  "DalamudApiLevel": 15,
+  "IconUrl": "https://raw.githubusercontent.com/AlessHub/Mount-Select/main/icon.png",
+  "ImageUrls": [],
+  "AssemblyVersion": "1.0.0.0",
+  "IsHide": false,
+  "IsTestingExclusive": false,
+  "LastUpdate": 0,
+  "DownloadLinkInstall": "https://github.com/AlessHub/Mount-Select/releases/latest/download/latest.zip",
+  "DownloadLinkTesting": "https://github.com/AlessHub/Mount-Select/releases/latest/download/latest.zip",
+  "DownloadLinkUpdate": "https://github.com/AlessHub/Mount-Select/releases/latest/download/latest.zip"
+}

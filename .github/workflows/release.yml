@@ -1,0 +1,89 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'repo.json'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get version
+        id: version
+        shell: pwsh
+        run: |
+          $xml = [xml](Get-Content "MountSelect.csproj")
+          $version = ($xml.Project.PropertyGroup | Where-Object { $_.Version } | Select-Object -First 1).Version
+          "version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Download Dalamud
+        shell: pwsh
+        run: |
+          $dest = "$env:APPDATA\XIVLauncher\addon\Hooks\dev"
+          New-Item -ItemType Directory -Force -Path $dest | Out-Null
+          Invoke-WebRequest -Uri "https://goatcorp.github.io/dalamud-distrib/latest.zip" -OutFile "$env:TEMP\dalamud.zip"
+          Expand-Archive -Path "$env:TEMP\dalamud.zip" -DestinationPath $dest -Force
+
+      - name: Build
+        run: dotnet build mount-select.sln --configuration Release -p:Platform=x64
+
+      - name: Package
+        shell: pwsh
+        run: |
+          $sdkZip = "bin/x64/Release/MountSelect/latest.zip"
+          if (-not (Test-Path $sdkZip)) {
+            Write-Error "SDK zip not found. Contents of bin:"
+            Get-ChildItem "bin" -Recurse -File | Select-Object -ExpandProperty FullName
+            exit 1
+          }
+          Copy-Item $sdkZip -Destination "latest.zip"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          files: latest.zip
+          make_latest: true
+
+      - name: Update repo.json
+        shell: pwsh
+        run: |
+          $repo = Get-Content "repo.json" | ConvertFrom-Json
+          $repo.AssemblyVersion = "${{ steps.version.outputs.version }}.0"
+          $repo.LastUpdate = [int][DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
+          $repo | ConvertTo-Json -Depth 5 | Set-Content "repo.json"
+
+      - name: Commit repo.json
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add repo.json
+          if ((git diff --staged --name-only) -contains "repo.json") {
+            git commit -m "ci: update repo.json for v${{ steps.version.outputs.version }} [skip ci]"
+            git push
+          }
+
+      - name: Notify aggregator
+        shell: pwsh
+        env:
+          AGGREGATOR_PAT: ${{ secrets.AGGREGATOR_PAT }}
+        run: |
+          $body = @{ event_type = "plugin-released"; client_payload = @{ plugin = "MountSelect" } } | ConvertTo-Json
+          Invoke-RestMethod -Method Post `
+            -Uri "https://api.github.com/repos/AlessHub/DalamudPlugins/dispatches" `
+            -Headers @{
+              "Authorization" = "Bearer $env:AGGREGATOR_PAT"
+              "Accept"        = "application/vnd.github+json"
+            } `
+            -Body $body `
+            -ContentType "application/json"
