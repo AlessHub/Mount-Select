@@ -9,7 +9,6 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <OutputPath>$(AppData)\XIVLauncher\devPlugins\MountSelect\</OutputPath>
     <Nullable>enable</Nullable>
     <NoWarn>MSB3277</NoWarn>
   </PropertyGroup>
@@ -19,6 +18,10 @@
     <Version>1.0.0</Version>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <OutputPath>$(AppData)\XIVLauncher\devPlugins\MountSelect\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -56,6 +59,10 @@
     <Using Include="System" />
     <Using Include="System.Collections.Generic" />
     <Using Include="System.Linq" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="icon.png" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
