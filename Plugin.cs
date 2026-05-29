@@ -28,6 +28,7 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static ICondition Condition { get; private set; } = null!;
     [PluginService] internal static IFramework Framework { get; private set; } = null!;
     [PluginService] internal static IKeyState KeyState { get; private set; } = null!;
+    [PluginService] internal static IObjectTable ObjectTable { get; private set; } = null!;
 
     private const string CommandName = "/mountselect";
     private const string ConfigCommandName = "/mountconfig";
@@ -62,7 +63,7 @@ public sealed class Plugin : IDalamudPlugin
         this.Configuration = PluginInterface.GetPluginConfig() as PluginConfiguration ?? new PluginConfiguration();
 
         var ownershipService = new MountOwnershipService(PluginLog);
-        this.MountService = new MountService(DataManager, ClientState, PluginLog, ownershipService);
+        this.MountService = new MountService(DataManager, ClientState, PluginLog, ownershipService, ObjectTable);
         this.MountActionService = new MountActionService(PluginLog, ChatGui, Condition, ClientState, MountService, CommandManager);
 
         this.MainWindow = new MainWindow(this, MountService, MountActionService);

@@ -15,6 +15,7 @@ public class MountService
     private readonly IClientState clientState;
     private readonly IPluginLog pluginLog;
     private readonly MountOwnershipService ownershipService;
+    private readonly IObjectTable objectTable;
 
     private Dictionary<uint, string>? mountCache;
     private Dictionary<uint, string>? jobCache;
@@ -22,12 +23,13 @@ public class MountService
     private Dictionary<uint, string>? multiSeatMountCache;
     private Dictionary<uint, string>? ownedMountsCache;
 
-    public MountService(IDataManager dataManager, IClientState clientState, IPluginLog pluginLog, MountOwnershipService ownershipService)
+    public MountService(IDataManager dataManager, IClientState clientState, IPluginLog pluginLog, MountOwnershipService ownershipService, IObjectTable objectTable)
     {
         this.dataManager = dataManager;
         this.clientState = clientState;
         this.pluginLog = pluginLog;
         this.ownershipService = ownershipService;
+        this.objectTable = objectTable;
     }
 
     public Dictionary<uint, string> GetAllMounts()
@@ -211,7 +213,7 @@ public class MountService
 
     public uint? GetCurrentJobId()
     {
-        return clientState.LocalPlayer?.ClassJob.RowId;
+        return objectTable.LocalPlayer?.ClassJob.RowId;
     }
 
     public string GetJobName(uint jobId)

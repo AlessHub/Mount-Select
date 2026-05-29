@@ -14,7 +14,7 @@
     "job",
     "rotation"
   ],
-  "DalamudApiLevel": 13,
+  "DalamudApiLevel": 15,
   "LoadPriority": 0,
   "LoadRequiredState": 0,
   "LoadSync": false,
