@@ -35,15 +35,41 @@ jobs:
       - name: Build
         run: dotnet build MountSelect.csproj --configuration Release
 
+      - name: Debug - List bin contents
+        shell: pwsh
+        run: |
+          Write-Host "=== Listing all files in bin directory ==="
+          if (Test-Path "bin") {
+            Get-ChildItem "bin" -Recurse -File | Select-Object FullName, Length | Format-Table -AutoSize
+          } else {
+            Write-Host "bin directory does not exist"
+          }
+
       - name: Package
         shell: pwsh
         run: |
-          $sdkZip = "bin/Release/MountSelect/latest.zip"
-          if (-not (Test-Path $sdkZip)) {
-            Write-Error "SDK zip not found. Contents of bin:"
-            Get-ChildItem "bin" -Recurse -File | Select-Object -ExpandProperty FullName
+          # Try multiple possible locations
+          $possiblePaths = @(
+            "bin/Release/MountSelect/latest.zip",
+            "bin/Release/net10.0-windows/MountSelect/latest.zip",
+            "bin/x64/Release/MountSelect/latest.zip",
+            "bin/x64/Release/net10.0-windows/MountSelect/latest.zip"
+          )
+          
+          $sdkZip = $null
+          foreach ($path in $possiblePaths) {
+            if (Test-Path $path) {
+              $sdkZip = $path
+              Write-Host "Found SDK zip at: $sdkZip"
+              break
+            }
+          }
+          
+          if (-not $sdkZip) {
+            Write-Error "SDK zip not found in any expected location"
             exit 1
           }
+          
           Copy-Item $sdkZip -Destination "latest.zip"
 
       - name: Create release
