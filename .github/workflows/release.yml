@@ -33,12 +33,12 @@ jobs:
           Expand-Archive -Path "$env:TEMP\dalamud.zip" -DestinationPath $dest -Force
 
       - name: Build
-        run: dotnet build mount-select.sln --configuration Release -p:Platform=x64
+        run: dotnet build MountSelect.csproj --configuration Release
 
       - name: Package
         shell: pwsh
         run: |
-          $sdkZip = "bin/x64/Release/MountSelect/latest.zip"
+          $sdkZip = "bin/Release/MountSelect/latest.zip"
           if (-not (Test-Path $sdkZip)) {
             Write-Error "SDK zip not found. Contents of bin:"
             Get-ChildItem "bin" -Recurse -File | Select-Object -ExpandProperty FullName
