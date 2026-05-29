@@ -48,7 +48,7 @@ jobs:
       - name: Package
         shell: pwsh
         run: |
-          # Try multiple possible locations
+          # Try multiple possible locations where SDK might create the zip
           $possiblePaths = @(
             "bin/Release/MountSelect/latest.zip",
             "bin/Release/net10.0-windows/MountSelect/latest.zip",
@@ -61,16 +61,26 @@ jobs:
             if (Test-Path $path) {
               $sdkZip = $path
               Write-Host "Found SDK zip at: $sdkZip"
-              break
+              Copy-Item $sdkZip -Destination "latest.zip"
+              exit 0
             }
           }
           
-          if (-not $sdkZip) {
-            Write-Error "SDK zip not found in any expected location"
-            exit 1
+          # If SDK didn't create zip, create it manually
+          Write-Host "SDK zip not found, creating manually from bin/Release"
+          $files = @(
+            "bin/Release/MountSelect.dll",
+            "bin/Release/MountSelect.json",
+            "bin/Release/icon.png"
+          )
+          
+          # Check if deps.json exists and include it
+          if (Test-Path "bin/Release/MountSelect.deps.json") {
+            $files += "bin/Release/MountSelect.deps.json"
           }
           
-          Copy-Item $sdkZip -Destination "latest.zip"
+          Compress-Archive -Path $files -DestinationPath "latest.zip" -Force
+          Write-Host "Created latest.zip manually"
 
       - name: Create release
         uses: softprops/action-gh-release@v2
