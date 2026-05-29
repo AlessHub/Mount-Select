@@ -4,7 +4,7 @@
   "Punchline": "Job-specific mount rotations with visual selection",
   "Description": "Customize your mount experience! Set up job-specific mount rotations and summon them with a keybind or command. Includes multi-seat mount favorites and visual mount selection with icons.",
   "InternalName": "MountSelect",
-  "AssemblyVersion": "1.0.0.0",
+  "AssemblyVersion": "1.0.1.0",
   "RepoUrl": "https://github.com/AlessHub/Mount-Select",
   "ApplicableVersion": "any",
   "IconUrl": "https://raw.githubusercontent.com/AlessHub/Mount-Select/main/icon.png",
