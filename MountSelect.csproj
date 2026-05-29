@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Using Include="System" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="icon.png" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
