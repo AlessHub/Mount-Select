@@ -20,6 +20,12 @@ The plugin registers these chat commands:
 - `/qmount` - Summons a random mount assigned from your current class or uses the default assigned ones
 - `/multimount` - Summons a random multi-seat from your selection
 
+
+## Disclaimer
+
+This plugin has been made with AI, vibe-coding, copilot, however you want to name it. This was my first attempt at vibe-coding and used it as an introduction to C#.
+I have however led all of the decisions and read everything personally, made logs to check outputs and outcomes and overall "built" the plugin. I understand what it does and how it does it.
+
 ## Known Limitations
 
 - **Mounting in PvP does not work entirely well** - I'm still currently working on this but I don't really like PvP that much so I'm just moving flags and hoping it works the next time I actually feel like doing frontline :(
